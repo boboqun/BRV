@@ -35,7 +35,7 @@ markdown_extensions:
   - pymdownx.tabbed
 
 nav:
-  - 使用: index.md
+  - usage: index.md
   - 多类型: multi-type.md
   - 更新数据: refresh-data.md
   - 点击事件: click.md
