@@ -1,6 +1,6 @@
 
 <!-- 本框架在不影响RecyclerView的任何函数组件使用基础上开发. 本框架也将一直保持维护状态 -->
-BRV is based on RecyclerView, with no interrupt to its original usage of functions or methods. This library is under LTS.
+BRV is a LTS library based on RecyclerView, All original functions and methods are supported.
 <br>
 <p align="center"><strong>strongly recommended for pull requests to this library and document revise. <br>
 For editing this page, just click the top right pen icon.  ↗</strong></p>
