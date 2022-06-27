@@ -13,18 +13,17 @@ rv.linear().setup {
     addType<SimpleModel>(R.layout.item_simple)
 }.models = getData()
 ```
+<sup>*</sup>`BRV` referred to this library. `RV` referred to RecyclerView. `setup` is just a simple function for creating BindingAdapter
 
-这里出现的`BRV`关键词即本框架, `RV`即RecyclerView简称. `setup`函数也只是简化创建BindingAdapter对象
+## filling data
 
-## 列表填充数据的三种方式
-
-BRV支持三种方式, 灵活使用; 这里提及的Model就等同于数据类/JavaBean/POJO
-
+`BRV` offers three easy ways to fill in data.`Model` refers to a JavaBean / POJO / Data class in this document
+<!-- BRV支持三种方式, 灵活使用; 这里提及的Model就等同于数据类/JavaBean/POJO -->
 
 
-### 1) 函数回调
+### 1) Callback
 
-在`onBind`函数中填充数据
+fill data in `onBind` block
 
 ```kotlin
 rv.linear().setup {
@@ -39,9 +38,13 @@ rv.linear().setup {
 
 
 
-### 2) 实现接口
+### 2) Implementing an Interface
 
-通过为Model实现接口`ItemBind`, 实现函数`onBind`, 在该函数中填充数据; 这种方式在很多框架中被应用, 例如BRVAH, 但是我不推荐这种视图在Model中绑定的方式, 因为Model应当只存储数据和计算逻辑, 不应包含任何UI
+**❎ not  recommended**
+
+Implementing the `ItemBind` Interface, override `onBind` method, fill in data;
+
+While this is widely supported in this kind of library, like BRVAH. We generally don't recommend using this feature, since Models should only be used for storing data and computation logic, not for UI elements.
 
 ```kotlin
 class SimpleModel(var name: String = "BRV") : ItemBind {
@@ -54,11 +57,11 @@ class SimpleModel(var name: String = "BRV") : ItemBind {
 ```
 
 
-
-
-
 ### 3) DataBinding
 
+**✅ recommended**
+
+DataBinding offers a flexible and powerful way to bind data to your UIs,that allows you to bind UI components in your XML layouts to data sources in your app using a declarative format rather than programmatically, reducing boilerplate code.
 通过DataBinding数据绑定形式自动填充数据, 推荐, 这是代码量最少最灵活的一种方式.
 
 第一步, 启用DataBinding, 在module中的build.gradle文件中
