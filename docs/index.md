@@ -62,9 +62,10 @@ class SimpleModel(var name: String = "BRV") : ItemBind {
 **✅ recommended**
 
 DataBinding offers a flexible and powerful way to bind data to your UIs,that allows you to bind UI components in your XML layouts to data sources in your app using a declarative format rather than programmatically, reducing boilerplate code.
-通过DataBinding数据绑定形式自动填充数据, 推荐, 这是代码量最少最灵活的一种方式.
 
-第一步, 启用DataBinding, 在module中的build.gradle文件中
+#### Step 1. configure your app to use data binding
+
+Enable the dataBinding build option in your build.gradle file in the app module, as shown in the following example:
 
 ```groovy
 apply plugin: "kotlin-kapt" // kapt插件用于生成dataBinding
@@ -75,7 +76,8 @@ android {
 }
 ```
 
-第二步, 在Item的布局文件中创建变量, 然后绑定变量到视图控件上
+#### Step 2. create an variable in your Item layout
+
 
 ```xml hl_lines="24"
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
@@ -111,25 +113,38 @@ android {
     </LinearLayout>
 </layout>
 ```
-选中行是DataBinding使用方法
+Then bind data to UI items, as shown in the highlighted line above.  
 
-第三步, 赋值一个用于`自定绑定数据到XML布局的Id`(DataBinding基础知识)
 
-> rv是一个列表. 里面的models是一个list集合, 每个元素对应一个item. dataBinding会根据你`赋值的Id`自动绑定models中元素到xml中赋值 <br>
+#### Step 3. Set an `id` for data binding to xml
+
+
+<!-- 第三步, 赋值一个用于`自定绑定数据到XML布局的Id`(DataBinding基础知识) -->
+<!-- > rv是一个列表. 里面的models是一个list集合, 每个元素对应一个item. dataBinding会根据你`赋值的Id`自动绑定models中元素到xml中赋值 <br> -->
+> `rv` is the RecyclerView. `models` is a list collection. Each item in models corresponds to a RecyclerView item. According to the `id` you specify, dataBinding will automatically bind your data to XML
 <br>
 
-1. 注意要先在某个布局或Item布局声明`<layout>`布局中的变量`name="m"`, `BR.m`才能被生成 <br>
-   <img src="https://i.loli.net/2021/08/14/rgX12ZSwkVMqQG3.png" width="450"/>
-1. 导包注意导入你所在module的BR, 这样所有使用该Id来声明数据模型的布局都会被BRV自动绑定数据 <br>
-   <img src="https://i.loli.net/2021/08/14/VhYlAp1J7ZR9rIs.png" width="350"/>
-   <img src="https://i.loli.net/2021/08/14/Yh5Ge1qQIObJpDn.png" width="350"/>
-1. 如果依然没有生成请`make project`(即图中绿色小锤子图标) <br>
-   <img src="https://i.loli.net/2021/08/14/IEh3H8VaFM6d1LR.png" width="150"/>
+1. The Data Binding Library generates accessor methods for each variable declared in the layout.  
+Remember to declare a variable `name="m"` in the `<data>` tag, so `BR.m` will be generated automatically.  
 
-> m(m是model的简称)可以是任何其他的名称, model或者sb都可以, 比如你`name="data"`, 那么你就应该使用BR.data <br>
-> BR.data和Android中常见的`R.id.data`都属于Id常量, 本质上都是Int值. 你可以点击查看BR.m源码<br>
-> 但是一旦声明`BRV.model = BR.m`你的所有BRV使用的item布局都得使用`name="m"`来声明数据模型, 否则会无法自动绑定 <br>
-> 当然你也可以在`onBind`里面手动绑定, 但是肯定比自动麻烦, 而且名称本身只是代号我建议都使用m <br>
+    <img src="https://i.loli.net/2021/08/14/rgX12ZSwkVMqQG3.png" width="450"/>  
+
+2. Please double check when importing the module BR class, so that BRV can automatically bind all your data according to the `id` that you specify.  
+
+    <img src="https://i.loli.net/2021/08/14/VhYlAp1J7ZR9rIs.png" width="350"/>
+    <img src="https://i.loli.net/2021/08/14/Yh5Ge1qQIObJpDn.png" width="350"/>  
+
+3. If nothing changes, please click the green smartisan button to `make project`  
+    <img src="https://i.loli.net/2021/08/14/IEh3H8VaFM6d1LR.png" width="150"/>
+
+> `m` (m is short name of model) can rename to any other name. if you set `name="data"` then you can use `BR.data`.  
+
+> Like `BR.data` and commonly `R.id.data` in Android. These are all ID constants. Each constant is essentially an integer value.  
+
+> If you declare `BRV.model = BR.m` in your application class, all of your item layouts that use BRV must use `name="m"` in the <data> tag.  
+
+> `onBind` allows you to manually bind data, but it must be more tedious than having it done automatically. So we recommended to use `m`  
+
 
 ```kotlin
 class App : Application() {
@@ -137,13 +152,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // 初始化BindingAdapter的默认绑定ID, 如果不使用DataBinding并不需要初始化
+        // init the default id of BindingAdapter
+        // only if DataBinding is used
         BRV.modelId = BR.m
     }
 }
 ```
 
-这种方式创建列表无需处理数据
+Using this strategy eliminates the requirement for manual data processing.
+<!-- 这种方式创建列表无需处理数据 -->
 
 ```kotlin
 rv.linear().setup {
@@ -151,7 +168,8 @@ rv.linear().setup {
 }.models = getData()
 ```
 
-别看文档中第三种方式复杂, 实际第三种方式代码量最少, 同时最解耦
+No matter how sophisticated the third method appears to be in the document, the real third method has the least amount of code and is the most decoupled.
+<!-- 别看文档中第三种方式复杂, 实际第三种方式代码量最少, 同时最解耦 -->
 
 > 使用DataBinding可以复制或者引用我的常用自定义属性:  [DataBindingComponent.kt](https://github.com/liangjingkanji/Engine/blob/master/engine/src/main/java/com/drake/engine/databinding/DataBindingComponent.kt)<br>
 > 如果你想更加了解DataBinding请阅读[DataBinding最全使用说明](https://juejin.cn/post/6844903549223059463/)
