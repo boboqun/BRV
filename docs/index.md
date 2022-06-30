@@ -68,7 +68,7 @@ DataBinding offers a flexible and powerful way to bind data to your UIs,that all
 Enable the dataBinding build option in your build.gradle file in the app module, as shown in the following example:
 
 ```groovy
-apply plugin: "kotlin-kapt" // kapt插件用于生成dataBinding
+apply plugin: "kotlin-kapt" // Using the kapt plugin to generate dataBinding
 
 android {
 	/.../
