@@ -168,9 +168,9 @@ rv.linear().setup {
 }.models = getData()
 ```
 
-No matter how sophisticated the third method appears to be in the document, the real third method has the least amount of code and is the most decoupled.
-<!-- 别看文档中第三种方式复杂, 实际第三种方式代码量最少, 同时最解耦 -->
+Despite how sophisticated the third method looks to be in the document, it actually has the least amount of code and is the most decoupled.
 
-> 使用DataBinding可以复制或者引用我的常用自定义属性:  [DataBindingComponent.kt](https://github.com/liangjingkanji/Engine/blob/master/engine/src/main/java/com/drake/engine/databinding/DataBindingComponent.kt)<br>
-> 如果你想更加了解DataBinding请阅读[DataBinding最全使用说明](https://juejin.cn/post/6844903549223059463/)
+
+> a Extensions Demo with DataBinding:  [DataBindingComponent.kt](https://github.com/liangjingkanji/Engine/blob/master/engine/src/main/java/com/drake/engine/databinding/DataBindingComponent.kt)<br>
+> read more about DataBinding [The most complete instructions for DataBinding](https://juejin.cn/post/6844903549223059463/)
 
